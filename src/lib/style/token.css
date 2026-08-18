@@ -1,0 +1,230 @@
+/* ==========================================================================
+   Plasma / KDE Breeze Design System Tokens
+   Based on KDE Breeze, Plasma 6, Kirigami & KColorScheme specifications
+   ========================================================================== */
+
+:root {
+	/* ------------------------------------------------------------------------
+	   Base Typography
+	   ------------------------------------------------------------------------ */
+	--plasma-font-sans: "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+	--plasma-font-mono: "Hack", "JetBrains Mono", "Cascadia Code", "Fira Code", monospace;
+
+	--plasma-font-size-xs: 0.75rem;    /* 12px */
+	--plasma-font-size-sm: 0.8125rem;  /* 13px - KDE standard small label */
+	--plasma-font-size-base: 0.875rem; /* 14px - KDE standard UI text */
+	--plasma-font-size-md: 1rem;       /* 16px */
+	--plasma-font-size-lg: 1.125rem;   /* 18px */
+	--plasma-font-size-xl: 1.375rem;   /* 22px */
+	--plasma-font-size-2xl: 1.75rem;   /* 28px */
+
+	--plasma-font-weight-normal: 400;
+	--plasma-font-weight-medium: 500;
+	--plasma-font-weight-bold: 600;
+
+	--plasma-line-height-tight: 1.25;
+	--plasma-line-height-base: 1.5;
+
+	/* ------------------------------------------------------------------------
+	   Spacing & Sizing Grid (4px / 8px base)
+	   ------------------------------------------------------------------------ */
+	--plasma-space-2xs: 0.125rem; /* 2px */
+	--plasma-space-xs: 0.25rem;   /* 4px */
+	--plasma-space-sm: 0.5rem;    /* 8px */
+	--plasma-space-md: 0.75rem;   /* 12px */
+	--plasma-space-lg: 1rem;      /* 16px */
+	--plasma-space-xl: 1.5rem;    /* 24px */
+	--plasma-space-2xl: 2rem;     /* 32px */
+
+	/* ------------------------------------------------------------------------
+	   Control Geometry (Breeze / Plasma 6 metrics)
+	   ------------------------------------------------------------------------ */
+	--plasma-radius-xs: 2px;
+	--plasma-radius-sm: 4px;
+	--plasma-radius-md: 5px;      /* Plasma 6 control standard */
+	--plasma-radius-lg: 8px;      /* Cards, Popups, Menus */
+	--plasma-radius-xl: 12px;     /* Floating sheets & panels */
+	--plasma-radius-full: 9999px; /* Pills, Avatars, Switches */
+
+	--plasma-control-height-sm: 1.5rem;  /* 24px */
+	--plasma-control-height-md: 2rem;    /* 32px standard */
+	--plasma-control-height-lg: 2.5rem;  /* 40px */
+
+	/* ------------------------------------------------------------------------
+	   Transitions & Motion
+	   ------------------------------------------------------------------------ */
+	--plasma-duration-fast: 100ms;
+	--plasma-duration-base: 150ms;
+	--plasma-duration-slow: 250ms;
+	--plasma-ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+
+	--plasma-transition-fast: all 100ms ease-out;
+	--plasma-transition-base: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+	--plasma-transition-slow: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+	/* ------------------------------------------------------------------------
+	   KDE Plasma Accent & Semantic Roles
+	   ------------------------------------------------------------------------ */
+	--plasma-color-highlight: #3daee9;
+	--plasma-color-highlight-hover: #1d99f3;
+	--plasma-color-highlight-active: #1881c7;
+	--plasma-color-highlight-text: #ffffff;
+	--plasma-color-highlight-soft: rgba(61, 174, 233, 0.15);
+	--plasma-color-highlight-glow: rgba(61, 174, 233, 0.35);
+
+	--plasma-color-positive: #27ae60;
+	--plasma-color-positive-hover: #2ecc71;
+	--plasma-color-positive-soft: rgba(39, 174, 96, 0.15);
+
+	--plasma-color-neutral: #f67400;
+	--plasma-color-neutral-hover: #fdbc4b;
+	--plasma-color-neutral-soft: rgba(246, 116, 0, 0.15);
+
+	--plasma-color-negative: #da4453;
+	--plasma-color-negative-hover: #ed1515;
+	--plasma-color-negative-soft: rgba(218, 68, 83, 0.15);
+
+	/* ------------------------------------------------------------------------
+	   Default Dark Theme (Breeze Dark)
+	   ------------------------------------------------------------------------ */
+	--plasma-color-window-bg: #2a2e32;
+	--plasma-color-view-bg: #232629;
+	--plasma-color-surface: #31363b;
+	--plasma-color-surface-hover: #3b4045;
+	--plasma-color-surface-active: #232629;
+	--plasma-color-surface-sunken: #1d2023;
+
+	--plasma-color-border: #4d545c;
+	--plasma-color-border-subtle: rgba(255, 255, 255, 0.1);
+	--plasma-color-border-hover: #3daee9;
+	--plasma-color-border-focus: #3daee9;
+
+	--plasma-color-text: #fcfcfc;
+	--plasma-color-text-muted: #a1a8b0;
+	--plasma-color-text-disabled: #616569;
+	--plasma-color-text-link: #1d99f3;
+
+	--plasma-color-tooltip-bg: #1b1e20;
+	--plasma-color-tooltip-text: #fcfcfc;
+
+	--plasma-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
+	--plasma-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.25);
+	--plasma-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+	--plasma-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.45);
+	--plasma-shadow-focus: 0 0 0 2px var(--plasma-color-highlight-glow);
+
+	/* ------------------------------------------------------------------------
+	   Backward Compatibility Aliases
+	   ------------------------------------------------------------------------ */
+	--color-primary: var(--plasma-color-highlight);
+	--color-primary-hover: var(--plasma-color-highlight-hover);
+	--color-bg: var(--plasma-color-window-bg);
+	--color-surface: var(--plasma-color-surface);
+	--color-surface-alt: var(--plasma-color-view-bg);
+	--color-border: var(--plasma-color-border);
+	--color-text: var(--plasma-color-text);
+	--color-text-muted: var(--plasma-color-text-muted);
+	--color-danger: var(--plasma-color-negative);
+
+	--font-family-base: var(--plasma-font-sans);
+	--font-size-sm: var(--plasma-font-size-sm);
+	--font-size-base: var(--plasma-font-size-base);
+
+	--radius-sm: var(--plasma-radius-sm);
+	--radius-md: var(--plasma-radius-md);
+	--shadow-card: var(--plasma-shadow-md);
+	--transition-default: var(--plasma-transition-base);
+	--transition-fast: var(--plasma-transition-fast);
+}
+
+/* ==========================================================================
+   Light Mode Theme (Breeze Light)
+   Triggered via data-theme="light" or prefers-color-scheme: light (when not explicit dark)
+   ========================================================================== */
+[data-theme="light"] {
+	--plasma-color-window-bg: #eff0f1;
+	--plasma-color-view-bg: #ffffff;
+	--plasma-color-surface: #f7f7f7;
+	--plasma-color-surface-hover: #ffffff;
+	--plasma-color-surface-active: #e0e2e4;
+	--plasma-color-surface-sunken: #e2e4e6;
+
+	--plasma-color-border: #bcbebf;
+	--plasma-color-border-subtle: rgba(0, 0, 0, 0.08);
+	--plasma-color-border-hover: #3daee9;
+	--plasma-color-border-focus: #3daee9;
+
+	--plasma-color-text: #232629;
+	--plasma-color-text-muted: #5c636b;
+	--plasma-color-text-disabled: #9fa4a8;
+	--plasma-color-text-link: #2980b9;
+
+	--plasma-color-tooltip-bg: #31363b;
+	--plasma-color-tooltip-text: #fcfcfc;
+
+	--plasma-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.06);
+	--plasma-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+	--plasma-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+	--plasma-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.16);
+	--plasma-shadow-focus: 0 0 0 2px rgba(61, 174, 233, 0.35);
+}
+
+@media (prefers-color-scheme: light) {
+	:root:not([data-theme="dark"]) {
+		--plasma-color-window-bg: #eff0f1;
+		--plasma-color-view-bg: #ffffff;
+		--plasma-color-surface: #f7f7f7;
+		--plasma-color-surface-hover: #ffffff;
+		--plasma-color-surface-active: #e0e2e4;
+		--plasma-color-surface-sunken: #e2e4e6;
+
+		--plasma-color-border: #bcbebf;
+		--plasma-color-border-subtle: rgba(0, 0, 0, 0.08);
+		--plasma-color-border-hover: #3daee9;
+		--plasma-color-border-focus: #3daee9;
+
+		--plasma-color-text: #232629;
+		--plasma-color-text-muted: #5c636b;
+		--plasma-color-text-disabled: #9fa4a8;
+		--plasma-color-text-link: #2980b9;
+
+		--plasma-color-tooltip-bg: #31363b;
+		--plasma-color-tooltip-text: #fcfcfc;
+
+		--plasma-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.06);
+		--plasma-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+		--plasma-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+		--plasma-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.16);
+		--plasma-shadow-focus: 0 0 0 2px rgba(61, 174, 233, 0.35);
+	}
+}
+
+/* Explicit dark theme override */
+[data-theme="dark"] {
+	--plasma-color-window-bg: #2a2e32;
+	--plasma-color-view-bg: #232629;
+	--plasma-color-surface: #31363b;
+	--plasma-color-surface-hover: #3b4045;
+	--plasma-color-surface-active: #232629;
+	--plasma-color-surface-sunken: #1d2023;
+
+	--plasma-color-border: #4d545c;
+	--plasma-color-border-subtle: rgba(255, 255, 255, 0.1);
+	--plasma-color-border-hover: #3daee9;
+	--plasma-color-border-focus: #3daee9;
+
+	--plasma-color-text: #fcfcfc;
+	--plasma-color-text-muted: #a1a8b0;
+	--plasma-color-text-disabled: #616569;
+	--plasma-color-text-link: #1d99f3;
+
+	--plasma-color-tooltip-bg: #1b1e20;
+	--plasma-color-tooltip-text: #fcfcfc;
+
+	--plasma-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
+	--plasma-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.25);
+	--plasma-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+	--plasma-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.45);
+	--plasma-shadow-focus: 0 0 0 2px var(--plasma-color-highlight-glow);
+}
+

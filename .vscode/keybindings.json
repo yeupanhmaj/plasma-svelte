@@ -1,0 +1,8 @@
+// Ensures Shift+Alt+F triggers Format Document using the Biome formatter
+[
+	{
+		"key": "shift+alt+f",
+		"command": "editor.action.formatDocument",
+		"when": "editorTextFocus && !editorReadonly"
+	}
+]

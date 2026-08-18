@@ -1,0 +1,86 @@
+/* ==========================================================================
+   Plasma / KDE Breeze Base & Global Styles
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	font-family: var(--plasma-font-sans);
+	font-size: 16px;
+	line-height: var(--plasma-line-height-base);
+	-webkit-text-size-adjust: 100%;
+	tab-size: 4;
+}
+
+body {
+	margin: 0;
+	font-family: var(--plasma-font-sans);
+	font-size: var(--plasma-font-size-base);
+	color: var(--plasma-color-text);
+	background-color: var(--plasma-color-window-bg);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* --------------------------------------------------------------------------
+   Selection Highlight (Breeze Blue)
+   -------------------------------------------------------------------------- */
+::selection {
+	background-color: var(--plasma-color-highlight);
+	color: var(--plasma-color-highlight-text);
+}
+
+/* --------------------------------------------------------------------------
+   KDE Breeze Scrollbars
+   -------------------------------------------------------------------------- */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: var(--plasma-color-border) transparent;
+}
+
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--plasma-color-border);
+	border-radius: var(--plasma-radius-full);
+	border: 2px solid transparent;
+	background-clip: padding-box;
+	transition: var(--plasma-transition-fast);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: var(--plasma-color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Default Focus Outline (Breeze 2px Accent Ring)
+   -------------------------------------------------------------------------- */
+:focus-visible {
+	outline: 2px solid var(--plasma-color-highlight);
+	outline-offset: 1px;
+}
+
+/* --------------------------------------------------------------------------
+   Links
+   -------------------------------------------------------------------------- */
+a {
+	color: var(--plasma-color-text-link);
+	text-decoration: none;
+	transition: var(--plasma-transition-fast);
+}
+
+a:hover {
+	text-decoration: underline;
+	color: var(--plasma-color-highlight-hover);
+}

@@ -1,0 +1,163 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Welcome / Introduction" />
+
+# Plasma Svelte
+
+> A faithful, modern **KDE Plasma 6 & Breeze** design system and component library built with **Svelte 5** and **TypeScript**.
+
+---
+
+## 🎨 Overview
+
+**Plasma Svelte** brings the desktop elegance and clarity of KDE Plasma 6 and the Breeze design language to modern web applications. Built from the ground up for **Svelte 5**, it provides lightweight, accessible, and reactive UI controls.
+
+<div className="plasma-hero-grid">
+  <div className="plasma-hero-card">
+    <div className="plasma-hero-icon">⚡</div>
+    <h3>Svelte 5 Runes</h3>
+    <p>Powered by modern `$state`, `$derived`, `$bindable`, and Svelte snippets for reactive performance.</p>
+  </div>
+  <div className="plasma-hero-card">
+    <div className="plasma-hero-icon">🌟</div>
+    <h3>KDE Breeze & Plasma 6</h3>
+    <p>Faithfully modeled after KDE Human Interface Guidelines (HIG), KColorScheme palettes, and Breeze metrics.</p>
+  </div>
+  <div className="plasma-hero-card">
+    <div className="plasma-hero-icon">🌓</div>
+    <h3>Breeze Light & Dark</h3>
+    <p>Seamless theme switching supporting both explicit `data-theme="light|dark"` and system preferences.</p>
+  </div>
+  <div className="plasma-hero-card">
+    <div className="plasma-hero-icon">♿</div>
+    <h3>Accessible & Robust</h3>
+    <p>Full keyboard navigation, semantic ARIA attributes, and zero-layout-shift micro-interactions.</p>
+  </div>
+</div>
+
+---
+
+## 🚀 Quick Start
+
+### 1. Installation
+
+```bash
+# Using pnpm (recommended)
+pnpm add plasma-svelte
+
+# Using npm or yarn
+npm install plasma-svelte
+```
+
+### 2. Import Styles
+
+Include the global CSS design tokens and base styles in your root layout:
+
+```svelte
+<!-- src/routes/+layout.svelte -->
+<script lang="ts">
+  import "plasma-svelte/style.css"; // or $lib/style/index.css in development
+
+  let { children } = $props();
+</script>
+
+{@render children()}
+```
+
+### 3. Using Components
+
+```svelte
+<script lang="ts">
+  import {
+    Button,
+    Input,
+    Checkbox,
+    Radio,
+    Switch,
+    Slider,
+    Card,
+    Tabs,
+    Badge,
+    Tooltip
+  } from "plasma-svelte";
+
+  let search = $state("");
+  let nightLight = $state(true);
+  let volume = $state(70);
+</script>
+
+<!-- KDE Breeze Push Button -->
+<Button variant="primary" onclick={() => alert("Action triggered!")}>
+  Apply Settings
+</Button>
+
+<!-- Search Input with Clear Button -->
+<Input placeholder="Search applications..." bind:value={search} clearable />
+
+<!-- KDE Switch & Slider -->
+<Switch bind:checked={nightLight} label="Night Light" />
+<Slider bind:value={volume} label="Master Volume" showValue min={0} max={100} />
+```
+
+---
+
+## 🌓 Theming & Color Modes
+
+Plasma Svelte controls dynamically adapt to the active color palette.
+
+### Switching Themes in Code
+```html
+<!-- Breeze Dark (Default) -->
+<html data-theme="dark">
+
+<!-- Breeze Light -->
+<html data-theme="light">
+```
+
+### Switching in Storybook
+Use the **Theme switcher** in the top toolbar to toggle between 🌙 **Breeze Dark** and ☀️ **Breeze Light** in real-time.
+
+---
+
+<style>
+  {`
+  .plasma-hero-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin: 24px 0 32px 0;
+  }
+
+  .plasma-hero-card {
+    background-color: var(--plasma-color-surface, #31363b);
+    border: 1px solid var(--plasma-color-border, #4d545c);
+    border-radius: 8px;
+    padding: 18px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: border-color 0.15s ease;
+  }
+
+  .plasma-hero-card:hover {
+    border-color: var(--plasma-color-highlight, #3daee9);
+  }
+
+  .plasma-hero-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  .plasma-hero-card h3 {
+    margin: 0 0 6px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--plasma-color-text, #fcfcfc);
+  }
+
+  .plasma-hero-card p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--plasma-color-text-muted, #a1a8b0);
+    line-height: 1.4;
+  }
+  `}
+</style>
