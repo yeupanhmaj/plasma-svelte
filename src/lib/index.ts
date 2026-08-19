@@ -11,6 +11,8 @@ export { default as Checkbox } from "./checkbox/Checkbox.svelte";
 export { default as DatePicker } from "./datepicker/DatePicker.svelte";
 export { default as Divider } from "./divider/Divider.svelte";
 export { default as Drawer, default as Sheet } from "./drawer/Drawer.svelte";
+export { default as Flex } from "./layout/Flex.svelte";
+export { default as Grid } from "./layout/Grid.svelte";
 export {
 	default as HeaderBar,
 	default as ToolBar,
@@ -32,9 +34,11 @@ export { default as Sidebar } from "./sidebar/Sidebar.svelte";
 export { default as SidebarGroup } from "./sidebar/SidebarGroup.svelte";
 export { default as SidebarItem } from "./sidebar/SidebarItem.svelte";
 export { default as Slider } from "./slider/Slider.svelte";
+export { default as Space } from "./layout/Space.svelte";
 export { default as SpinBox } from "./spinbox/SpinBox.svelte";
 export { default as Switch } from "./switch/Switch.svelte";
 export { default as Tabs } from "./tabs/Tabs.svelte";
 export { default as TextArea } from "./textarea/TextArea.svelte";
 export { default as TimePicker } from "./timepicker/TimePicker.svelte";
 export { default as Tooltip } from "./tooltip/Tooltip.svelte";
+export * from "./layout/utils.js";

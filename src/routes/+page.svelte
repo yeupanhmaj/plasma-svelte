@@ -12,6 +12,8 @@
   import DatePicker from "$lib/datepicker/DatePicker.svelte";
   import Divider from "$lib/divider/Divider.svelte";
   import Drawer from "$lib/drawer/Drawer.svelte";
+  import Flex from "$lib/layout/Flex.svelte";
+  import Grid from "$lib/layout/Grid.svelte";
   import HeaderBar from "$lib/headerbar/HeaderBar.svelte";
   import Input from "$lib/input/Input.svelte";
   import Menu from "$lib/menu/Menu.svelte";
@@ -27,12 +29,14 @@
   import SidebarGroup from "$lib/sidebar/SidebarGroup.svelte";
   import SidebarItem from "$lib/sidebar/SidebarItem.svelte";
   import Slider from "$lib/slider/Slider.svelte";
+  import Space from "$lib/layout/Space.svelte";
   import SpinBox from "$lib/spinbox/SpinBox.svelte";
   import Switch from "$lib/switch/Switch.svelte";
   import Tabs from "$lib/tabs/Tabs.svelte";
   import TextArea from "$lib/textarea/TextArea.svelte";
   import TimePicker from "$lib/timepicker/TimePicker.svelte";
   import Tooltip from "$lib/tooltip/Tooltip.svelte";
+
 
   let selectedDate = $state("2026-08-19");
   let selectedTime = $state("14:30");
@@ -793,11 +797,67 @@
             {/snippet}
           </HeaderBar>
         </div>
+
+        <div class="group-card" style="grid-column: 1 / -1;">
+          <h3>Layout Primitives: Flex, Grid & Space</h3>
+          
+          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <!-- Flex -->
+            <div>
+              <h4 style="margin: 0 0 0.5rem 0; font-size: var(--plasma-font-size-sm); color: var(--plasma-color-text-muted);">
+                Flex (direction="row", justify="between", align="center")
+              </h4>
+              <Flex justify="between" align="center" gap="md" style="padding: 0.75rem; border: 1px dashed var(--plasma-color-border); border-radius: var(--plasma-radius-md);">
+                <Space size="sm">
+                  <Badge variant="highlight">Active Session</Badge>
+                  <span>Wayland Compositor</span>
+                </Space>
+                <Space size="xs">
+                  <Button variant="flat" size="sm">Configure</Button>
+                  <Button variant="primary" size="sm">Restart</Button>
+                </Space>
+              </Flex>
+            </div>
+
+            <!-- Grid -->
+            <div>
+              <h4 style="margin: 0 0 0.5rem 0; font-size: var(--plasma-font-size-sm); color: var(--plasma-color-text-muted);">
+                Grid (cols=3, gap="md")
+              </h4>
+              <Grid cols={3} gap="md">
+                <div style="padding: 12px; background: var(--plasma-color-surface); border: 1px solid var(--plasma-color-border-subtle); border-radius: 6px; text-align: center;">
+                  Col 1
+                </div>
+                <div style="padding: 12px; background: var(--plasma-color-surface); border: 1px solid var(--plasma-color-border-subtle); border-radius: 6px; text-align: center;">
+                  Col 2
+                </div>
+                <div style="padding: 12px; background: var(--plasma-color-surface); border: 1px solid var(--plasma-color-border-subtle); border-radius: 6px; text-align: center;">
+                  Col 3
+                </div>
+              </Grid>
+            </div>
+
+            <!-- Space -->
+            <div>
+              <h4 style="margin: 0 0 0.5rem 0; font-size: var(--plasma-font-size-sm); color: var(--plasma-color-text-muted);">
+                Space (direction="horizontal", size="sm", wrap=true)
+              </h4>
+              <Space size="sm" wrap>
+                <Button variant="default" size="sm">Item 1</Button>
+                <Button variant="default" size="sm">Item 2</Button>
+                <Button variant="default" size="sm">Item 3</Button>
+                <Button variant="default" size="sm">Item 4</Button>
+                <Button variant="default" size="sm">Item 5</Button>
+              </Space>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="section">
       <h2>Color Tokens</h2>
+
       <div class="token-groups">
         {#each colorTokens as group}
           <div class="group-card">
