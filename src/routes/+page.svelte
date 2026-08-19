@@ -21,6 +21,7 @@
   import MenuItem from "$lib/menu/MenuItem.svelte";
   import InlineMessage from "$lib/message/InlineMessage.svelte";
   import Modal from "$lib/modal/Modal.svelte";
+  import Pagination from "$lib/pagination/Pagination.svelte";
   import ProgressBar from "$lib/progress/ProgressBar.svelte";
   import Radio from "$lib/radio/Radio.svelte";
   import SearchField from "$lib/searchfield/SearchField.svelte";
@@ -32,10 +33,21 @@
   import Space from "$lib/layout/Space.svelte";
   import SpinBox from "$lib/spinbox/SpinBox.svelte";
   import Switch from "$lib/switch/Switch.svelte";
+  import Table from "$lib/table/Table.svelte";
   import Tabs from "$lib/tabs/Tabs.svelte";
   import TextArea from "$lib/textarea/TextArea.svelte";
   import TimePicker from "$lib/timepicker/TimePicker.svelte";
   import Tooltip from "$lib/tooltip/Tooltip.svelte";
+
+  let currentPage = $state(1);
+  let tableProcesses = [
+    { id: 1, pid: 1042, name: "kwin_wayland", memory: "184 MB", cpu: "2.4%", status: "running" },
+    { id: 2, pid: 1582, name: "plasmashell", memory: "312 MB", cpu: "1.1%", status: "running" },
+    { id: 3, pid: 2840, name: "dolphin", memory: "96 MB", cpu: "0.0%", status: "idle" },
+    { id: 4, pid: 3104, name: "kate", memory: "78 MB", cpu: "0.2%", status: "idle" },
+    { id: 5, pid: 4512, name: "systemsettings", memory: "112 MB", cpu: "0.5%", status: "running" },
+  ];
+
 
 
   let selectedDate = $state("2026-08-19");
@@ -852,11 +864,38 @@
             </div>
           </div>
         </div>
+
+        <div class="group-card" style="grid-column: 1 / -1;">
+          <h3>Data Grid & Table (QTableView)</h3>
+          <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <Table
+              columns={[
+                { key: "pid", title: "PID", width: "90px", sortable: true },
+                { key: "name", title: "Process Name", sortable: true },
+                { key: "memory", title: "Memory", width: "120px", sortable: true },
+                { key: "cpu", title: "CPU %", width: "100px", sortable: true, align: "right" },
+              ]}
+              data={tableProcesses}
+              selectedId={2}
+              striped
+            />
+
+            <div style="display: flex; justify-content: flex-end; width: 100%;">
+              <Pagination
+                bind:current={currentPage}
+                total={48}
+                pageSize={5}
+                showTotal
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="section">
       <h2>Color Tokens</h2>
+
 
       <div class="token-groups">
         {#each colorTokens as group}

@@ -26,6 +26,7 @@ export {
 	default as Alert,
 } from "./message/InlineMessage.svelte";
 export { default as Modal, default as Dialog } from "./modal/Modal.svelte";
+export { default as Pagination } from "./pagination/Pagination.svelte";
 export { default as ProgressBar } from "./progress/ProgressBar.svelte";
 export { default as Radio } from "./radio/Radio.svelte";
 export { default as SearchField } from "./searchfield/SearchField.svelte";
@@ -37,6 +38,7 @@ export { default as Slider } from "./slider/Slider.svelte";
 export { default as Space } from "./layout/Space.svelte";
 export { default as SpinBox } from "./spinbox/SpinBox.svelte";
 export { default as Switch } from "./switch/Switch.svelte";
+export { default as Table, type TableColumn } from "./table/Table.svelte";
 export { default as Tabs } from "./tabs/Tabs.svelte";
 export { default as TextArea } from "./textarea/TextArea.svelte";
 export { default as TimePicker } from "./timepicker/TimePicker.svelte";
