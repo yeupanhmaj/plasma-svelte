@@ -61,3 +61,8 @@
 <Story name="Large" args={{ size: "lg", children: DefaultLabel }} />
 
 <Story name="Disabled" args={{ disabled: true, children: DefaultLabel }} />
+
+<Story name="Loading" args={{ loading: true, children: DefaultLabel }} />
+
+<Story name="Link" args={{ href: "https://kde.org", target: "_blank", children: PrimaryLabel }} />
+

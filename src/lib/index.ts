@@ -8,9 +8,12 @@ export { default as Button } from "./button/Button.svelte";
 export { default as ButtonGroup } from "./button/ButtonGroup.svelte";
 export { default as Card } from "./card/Card.svelte";
 export { default as Checkbox } from "./checkbox/Checkbox.svelte";
+export { default as ConfirmDialog } from "./modal/ConfirmDialog.svelte";
 export { default as DatePicker } from "./datepicker/DatePicker.svelte";
 export { default as Divider } from "./divider/Divider.svelte";
 export { default as Drawer, default as Sheet } from "./drawer/Drawer.svelte";
+export { default as DropZone, default as FileUpload } from "./dropzone/DropZone.svelte";
+export { default as EmptyState, default as Placeholder } from "./emptystate/EmptyState.svelte";
 export { default as Flex } from "./layout/Flex.svelte";
 export { default as Grid } from "./layout/Grid.svelte";
 export {
@@ -37,6 +40,7 @@ export { default as SidebarItem } from "./sidebar/SidebarItem.svelte";
 export { default as Slider } from "./slider/Slider.svelte";
 export { default as Space } from "./layout/Space.svelte";
 export { default as SpinBox } from "./spinbox/SpinBox.svelte";
+export { default as Spinner, default as Loading } from "./spinner/Spinner.svelte";
 export { default as Switch } from "./switch/Switch.svelte";
 export { default as Table, type TableColumn } from "./table/Table.svelte";
 export { default as Tabs } from "./tabs/Tabs.svelte";
@@ -44,3 +48,4 @@ export { default as TextArea } from "./textarea/TextArea.svelte";
 export { default as TimePicker } from "./timepicker/TimePicker.svelte";
 export { default as Tooltip } from "./tooltip/Tooltip.svelte";
 export * from "./layout/utils.js";
+

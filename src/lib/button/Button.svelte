@@ -1,15 +1,20 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
-  import type { HTMLButtonAttributes } from "svelte/elements";
+  import type { HTMLAttributes, HTMLButtonAttributes } from "svelte/elements";
 
   type ButtonVariant = "default" | "secondary" | "primary" | "flat" | "tool" | "danger";
   type ButtonSize = "sm" | "md" | "lg" | "small" | "medium" | "large";
 
-  interface Props extends HTMLButtonAttributes {
+  interface Props extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement> {
     variant?: ButtonVariant;
     primary?: boolean;
     size?: ButtonSize;
     disabled?: boolean;
+    loading?: boolean;
+    type?: HTMLButtonAttributes["type"];
+    href?: string;
+    target?: string;
+    rel?: string;
     label?: string;
     children?: Snippet;
   }
@@ -19,10 +24,15 @@
     primary = false,
     size = "md",
     disabled = false,
+    loading = false,
     type = "button",
+    href,
+    target,
+    rel,
     label,
     children,
     class: customClass = "",
+    onclick,
     ...restProps
   }: Props = $props();
 
@@ -41,20 +51,60 @@
           ? "flat"
           : variant
   );
+
+  const isInteractiveDisabled = $derived(disabled || loading);
+
+  function handleClick(e: MouseEvent) {
+    if (isInteractiveDisabled) {
+      e.preventDefault();
+      return;
+    }
+    (onclick as ((e: MouseEvent) => void) | undefined)?.(e);
+  }
 </script>
 
-<button
-  {type}
-  class="plasma-btn plasma-btn--{resolvedVariant} plasma-btn--{resolvedSize} {customClass}"
-  {disabled}
-  {...restProps}
->
-  {#if children}
-    {@render children()}
-  {:else if label}
-    {label}
-  {/if}
-</button>
+{#if href}
+  <a
+    {href}
+    {target}
+    rel={target === "_blank" && !rel ? "noopener noreferrer" : rel}
+    class="plasma-btn plasma-btn--{resolvedVariant} plasma-btn--{resolvedSize} {customClass}"
+    class:plasma-btn--loading={loading}
+    class:plasma-btn--disabled={isInteractiveDisabled}
+    aria-disabled={isInteractiveDisabled ? "true" : undefined}
+    aria-busy={loading ? "true" : undefined}
+    onclick={handleClick}
+    {...restProps}
+  >
+    {#if loading}
+      <span class="plasma-btn-spinner" aria-hidden="true"></span>
+    {/if}
+    {#if children}
+      {@render children()}
+    {:else if label}
+      {label}
+    {/if}
+  </a>
+{:else}
+  <button
+    {type}
+    class="plasma-btn plasma-btn--{resolvedVariant} plasma-btn--{resolvedSize} {customClass}"
+    class:plasma-btn--loading={loading}
+    disabled={isInteractiveDisabled}
+    aria-busy={loading ? "true" : undefined}
+    onclick={handleClick}
+    {...restProps}
+  >
+    {#if loading}
+      <span class="plasma-btn-spinner" aria-hidden="true"></span>
+    {/if}
+    {#if children}
+      {@render children()}
+    {:else if label}
+      {label}
+    {/if}
+  </button>
+{/if}
 
 
 <style>
@@ -185,9 +235,34 @@
     box-shadow: var(--plasma-shadow-focus);
   }
 
-  .plasma-btn:disabled {
+  .plasma-btn:disabled,
+  .plasma-btn--disabled {
     opacity: 0.45;
     cursor: not-allowed;
     box-shadow: none;
+    pointer-events: none;
+  }
+
+  /* --------------------------------------------------------------------------
+     Spinner for loading button
+     -------------------------------------------------------------------------- */
+  .plasma-btn-spinner {
+    width: 1em;
+    height: 1em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: var(--plasma-radius-full);
+    animation: plasma-btn-spin 0.75s linear infinite;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  @keyframes plasma-btn-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 </style>
