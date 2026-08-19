@@ -6,9 +6,12 @@
   import Breadcrumb from "$lib/breadcrumb/Breadcrumb.svelte";
   import BreadcrumbItem from "$lib/breadcrumb/BreadcrumbItem.svelte";
   import Button from "$lib/button/Button.svelte";
+  import ButtonGroup from "$lib/button/ButtonGroup.svelte";
   import Card from "$lib/card/Card.svelte";
   import Checkbox from "$lib/checkbox/Checkbox.svelte";
+  import DatePicker from "$lib/datepicker/DatePicker.svelte";
   import Divider from "$lib/divider/Divider.svelte";
+  import Drawer from "$lib/drawer/Drawer.svelte";
   import HeaderBar from "$lib/headerbar/HeaderBar.svelte";
   import Input from "$lib/input/Input.svelte";
   import Menu from "$lib/menu/Menu.svelte";
@@ -28,7 +31,14 @@
   import Switch from "$lib/switch/Switch.svelte";
   import Tabs from "$lib/tabs/Tabs.svelte";
   import TextArea from "$lib/textarea/TextArea.svelte";
+  import TimePicker from "$lib/timepicker/TimePicker.svelte";
   import Tooltip from "$lib/tooltip/Tooltip.svelte";
+
+  let selectedDate = $state("2026-08-19");
+  let selectedTime = $state("14:30");
+  let drawerOpen = $state(false);
+
+
 
   let searchQuery = $state("Display & Monitor");
 
@@ -153,8 +163,25 @@
           <Button size="md">Medium (32px)</Button>
           <Button size="lg">Large (40px)</Button>
         </div>
+
+        <h3 style="margin-top: 1.5rem;">ButtonGroup (Connected Segmented Buttons)</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+          <ButtonGroup>
+            <Button variant="default">Left</Button>
+            <Button variant="primary">Center</Button>
+            <Button variant="default">Right</Button>
+            <Button variant="default">Justify</Button>
+          </ButtonGroup>
+
+          <ButtonGroup size="sm">
+            <Button variant="primary">Grid</Button>
+            <Button variant="default">List</Button>
+            <Button variant="default">Compact</Button>
+          </ButtonGroup>
+        </div>
       </div>
     </section>
+
 
     <section class="section">
       <h2>Interactive Controls: Input & TextField</h2>
@@ -393,9 +420,14 @@
 
         <div>
           <h3>Modal & Dialog</h3>
-          <Button variant="primary" onclick={() => (isModalOpen = true)}>
-            Open KDE Breeze Modal Dialog
-          </Button>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <Button variant="primary" onclick={() => (isModalOpen = true)}>
+              Open KDE Modal Dialog
+            </Button>
+            <Button variant="default" onclick={() => (drawerOpen = true)}>
+              Open Side Drawer Panel
+            </Button>
+          </div>
 
           <Modal
             bind:open={isModalOpen}
@@ -423,6 +455,27 @@
               >
             {/snippet}
           </Modal>
+
+          <Drawer
+            bind:open={drawerOpen}
+            title="System Inspector"
+            subtitle="KDE Plasma 6 Telemetry"
+            width="360px"
+          >
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <p style="margin: 0; color: var(--plasma-color-text-muted); font-size: var(--plasma-font-size-sm);">
+                Slide-over side drawer panel modeled after Kirigami.OverlaySheet.
+              </p>
+              <Input placeholder="Component filter..." value="KWin Compositor" />
+              <Switch checked label="Hardware V-Sync" />
+              <Switch label="Low Latency Mode" />
+            </div>
+
+            {#snippet footer()}
+              <Button variant="flat" size="sm" onclick={() => (drawerOpen = false)}>Close</Button>
+              <Button variant="primary" size="sm" onclick={() => (drawerOpen = false)}>Save</Button>
+            {/snippet}
+          </Drawer>
         </div>
       </div>
     </section>
@@ -568,8 +621,36 @@
         </div>
 
         <div class="group-card" style="grid-column: 1 / -1;">
+          <h3>Date & Time Pickers</h3>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-start;">
+            <div style="width: 240px;">
+              <span style="display: block; font-size: var(--plasma-font-size-sm); margin-bottom: 0.25rem;">
+                DatePicker (KCalendar)
+              </span>
+              <DatePicker bind:value={selectedDate} />
+            </div>
+
+            <div style="width: 200px;">
+              <span style="display: block; font-size: var(--plasma-font-size-sm); margin-bottom: 0.25rem;">
+                TimePicker (24-Hour)
+              </span>
+              <TimePicker bind:value={selectedTime} />
+            </div>
+
+            <div style="width: 180px;">
+              <span style="display: block; font-size: var(--plasma-font-size-sm); margin-bottom: 0.25rem;">
+                5-Min Interval
+              </span>
+              <TimePicker value="08:15" minuteStep={5} size="sm" />
+            </div>
+          </div>
+        </div>
+
+        <div class="group-card" style="grid-column: 1 / -1;">
           <h3>Avatars & User Profiles</h3>
           <div
+
             style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;"
           >
             <Avatar

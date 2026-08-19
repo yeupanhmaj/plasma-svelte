@@ -2,6 +2,11 @@
    Plasma / KDE Breeze Base & Global Styles
    ========================================================================== */
 
+/* --------------------------------------------------------------------------
+   KDE Breeze Typography Web Fonts (Noto Sans & JetBrains Mono)
+   -------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 *,
 *::before,
 *::after {
@@ -24,6 +29,93 @@ body {
 	background-color: var(--plasma-color-window-bg);
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+/* --------------------------------------------------------------------------
+   Headings & Typography Hierarchy
+   -------------------------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+	margin: 0 0 var(--plasma-space-sm) 0;
+	font-family: var(--plasma-font-sans);
+	font-weight: var(--plasma-font-weight-bold);
+	line-height: var(--plasma-line-height-tight);
+	color: var(--plasma-color-text);
+}
+
+h1 { font-size: var(--plasma-font-size-2xl); }
+h2 { font-size: var(--plasma-font-size-xl); }
+h3 { font-size: var(--plasma-font-size-lg); }
+h4 { font-size: var(--plasma-font-size-md); }
+h5 { font-size: var(--plasma-font-size-base); }
+h6 { font-size: var(--plasma-font-size-sm); }
+
+p {
+	margin: 0 0 var(--plasma-space-md) 0;
+	line-height: var(--plasma-line-height-base);
+}
+
+small {
+	font-size: var(--plasma-font-size-xs);
+	color: var(--plasma-color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Code & Monospace Blocks
+   -------------------------------------------------------------------------- */
+code,
+kbd,
+samp,
+pre {
+	font-family: var(--plasma-font-mono);
+	font-size: var(--plasma-font-size-xs);
+}
+
+code {
+	padding: 2px 4px;
+	border-radius: var(--plasma-radius-sm);
+	background-color: var(--plasma-color-surface-sunken);
+	border: 1px solid var(--plasma-color-border-subtle);
+	color: var(--plasma-color-highlight);
+}
+
+pre {
+	padding: var(--plasma-space-md);
+	border-radius: var(--plasma-radius-md);
+	background-color: var(--plasma-color-surface-sunken);
+	border: 1px solid var(--plasma-color-border);
+	overflow-x: auto;
+}
+
+pre code {
+	padding: 0;
+	background: transparent;
+	border: none;
+	color: inherit;
+}
+
+kbd {
+	display: inline-block;
+	padding: 2px 5px;
+	font-size: 11px;
+	line-height: 1;
+	color: var(--plasma-color-text);
+	background-color: var(--plasma-color-surface);
+	border: 1px solid var(--plasma-color-border);
+	border-radius: var(--plasma-radius-sm);
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* --------------------------------------------------------------------------
+   Form Elements Font Inheritance
+   -------------------------------------------------------------------------- */
+button,
+input,
+optgroup,
+select,
+textarea {
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
 }
 
 /* --------------------------------------------------------------------------
