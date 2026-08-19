@@ -12,9 +12,11 @@
     disabled?: boolean;
     loading?: boolean;
     type?: HTMLButtonAttributes["type"];
+    form?: string;
     href?: string;
     target?: string;
     rel?: string;
+    download?: boolean | string;
     label?: string;
     children?: Snippet;
   }
@@ -26,9 +28,11 @@
     disabled = false,
     loading = false,
     type = "button",
+    form,
     href,
     target,
     rel,
+    download,
     label,
     children,
     class: customClass = "",
@@ -67,6 +71,7 @@
   <a
     {href}
     {target}
+    {download}
     rel={target === "_blank" && !rel ? "noopener noreferrer" : rel}
     class="plasma-btn plasma-btn--{resolvedVariant} plasma-btn--{resolvedSize} {customClass}"
     class:plasma-btn--loading={loading}
@@ -88,6 +93,7 @@
 {:else}
   <button
     {type}
+    {form}
     class="plasma-btn plasma-btn--{resolvedVariant} plasma-btn--{resolvedSize} {customClass}"
     class:plasma-btn--loading={loading}
     disabled={isInteractiveDisabled}

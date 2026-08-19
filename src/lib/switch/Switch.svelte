@@ -20,6 +20,7 @@
     children,
     class: customClass = "",
     id,
+    onchange,
     ...restProps
   }: Props = $props();
 
@@ -36,10 +37,10 @@
   function handleChange(e: Event) {
     const target = e.target as HTMLInputElement;
     checked = target.checked;
+    (onchange as ((e: Event) => void) | undefined)?.(e);
   }
 </script>
 
-<!-- biome-ignore lint/a11y/noLabelWithoutControl: id is passed as an attr -->
 <label
   class="plasma-switch-container plasma-switch--{resolvedSize} {customClass}"
   class:plasma-switch--disabled={disabled}

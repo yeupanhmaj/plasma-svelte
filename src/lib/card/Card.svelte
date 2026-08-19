@@ -4,30 +4,35 @@
 
   type CardPadding = "none" | "sm" | "md" | "lg";
   type CardVariant = "default" | "flat" | "sunken" | "floating";
+  type CardOrientation = "vertical" | "horizontal";
 
   interface Props extends HTMLAttributes<HTMLDivElement> {
     variant?: CardVariant;
     padding?: CardPadding;
+    orientation?: CardOrientation;
     hoverable?: boolean;
     header?: Snippet;
     footer?: Snippet;
     children?: Snippet;
+    bodyClass?: string;
   }
 
   let {
     variant = "default",
     padding = "md",
+    orientation = "vertical",
     hoverable = false,
     header,
     footer,
     children,
     class: customClass = "",
+    bodyClass = "",
     ...restProps
   }: Props = $props();
 </script>
 
 <div
-  class="plasma-card plasma-card--{variant} plasma-card--padding-{padding} {customClass}"
+  class="plasma-card plasma-card--{variant} plasma-card--{orientation} plasma-card--padding-{padding} {customClass}"
   class:plasma-card--hoverable={hoverable}
   {...restProps}
 >
@@ -38,7 +43,7 @@
   {/if}
 
   {#if children}
-    <div class="plasma-card-body">
+    <div class="plasma-card-body {bodyClass}">
       {@render children()}
     </div>
   {/if}
@@ -54,7 +59,6 @@
   .plasma-card {
     position: relative;
     display: flex;
-    flex-direction: column;
     box-sizing: border-box;
     font-family: var(--plasma-font-sans);
     color: var(--plasma-color-text);
@@ -63,6 +67,14 @@
     background-color: var(--plasma-color-surface);
     transition: var(--plasma-transition-fast);
     overflow: hidden;
+  }
+
+  .plasma-card--vertical {
+    flex-direction: column;
+  }
+
+  .plasma-card--horizontal {
+    flex-direction: row;
   }
 
   /* --------------------------------------------------------------------------
@@ -154,9 +166,20 @@
   }
 
   .plasma-card-body {
+    display: flex;
+    flex-direction: column;
     flex: 1;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
     font-size: var(--plasma-font-size-base);
     line-height: var(--plasma-line-height-base);
+  }
+
+  .plasma-card--horizontal > .plasma-card-body {
+    flex-direction: row;
+    align-items: stretch;
   }
 
   .plasma-card-footer {
