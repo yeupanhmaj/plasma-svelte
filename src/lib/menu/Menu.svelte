@@ -32,7 +32,12 @@
   }
 
   function handleWindowClick(e: MouseEvent) {
-    if (!inline && open && containerEl && !containerEl.contains(e.target as Node)) {
+    if (
+      !inline &&
+      open &&
+      containerEl &&
+      !containerEl.contains(e.target as Node)
+    ) {
       open = false;
       onclose?.();
     }
@@ -59,11 +64,10 @@
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <!-- biome-ignore lint/a11y/noStaticElementInteractions: trigger slot wrapper -->
-    <div class="plasma-menu-trigger" onclick={toggle}>
+    <div class="plasma-menu-trigger" onclick={toggle} onkeydown={() => {}}>
       {@render trigger()}
     </div>
   {/if}
-
 
   {#if open || inline}
     <ul
@@ -106,7 +110,8 @@
     border: 1px solid var(--plasma-color-border);
     border-radius: var(--plasma-radius-md);
     box-shadow: var(--plasma-shadow-md);
-    animation: plasma-menu-pop var(--plasma-duration-fast) var(--plasma-ease-default);
+    animation: plasma-menu-pop var(--plasma-duration-fast)
+      var(--plasma-ease-default);
     box-sizing: border-box;
   }
 

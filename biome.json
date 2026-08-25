@@ -21,8 +21,10 @@
       },
       "a11y": {
         "useFocusableInteractive": "off",
-        "useSemanticElements":"off",
-        "useAriaPropsForRole":"off"
+        "useSemanticElements": "off",
+        "useAriaPropsForRole": "off",
+        "noNoninteractiveElementToInteractiveRole": "off",
+        "noLabelWithoutControl": "off"
       }
     }
   },

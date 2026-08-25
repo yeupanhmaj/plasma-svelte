@@ -52,15 +52,15 @@
     flex-direction: row;
   }
 
-  .plasma-button-group--horizontal :global(> .plasma-button:not(:first-child)),
-  .plasma-button-group--horizontal :global(> button:not(:first-child)) {
+  .plasma-button-group--horizontal > :global(.plasma-button:not(:first-child)),
+  .plasma-button-group--horizontal > :global(button:not(:first-child)) {
     margin-left: -1px;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
 
-  .plasma-button-group--horizontal :global(> .plasma-button:not(:last-child)),
-  .plasma-button-group--horizontal :global(> button:not(:last-child)) {
+  .plasma-button-group--horizontal > :global(.plasma-button:not(:last-child)),
+  .plasma-button-group--horizontal > :global(button:not(:last-child)) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
@@ -72,15 +72,15 @@
     flex-direction: column;
   }
 
-  .plasma-button-group--vertical :global(> .plasma-button:not(:first-child)),
-  .plasma-button-group--vertical :global(> button:not(:first-child)) {
+  .plasma-button-group--vertical > :global(.plasma-button:not(:first-child)),
+  .plasma-button-group--vertical > :global(button:not(:first-child)) {
     margin-top: -1px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
 
-  .plasma-button-group--vertical :global(> .plasma-button:not(:last-child)),
-  .plasma-button-group--vertical :global(> button:not(:last-child)) {
+  .plasma-button-group--vertical > :global(.plasma-button:not(:last-child)),
+  .plasma-button-group--vertical > :global(button:not(:last-child)) {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
@@ -88,11 +88,11 @@
   /* --------------------------------------------------------------------------
      Hover & Focus Layering
      -------------------------------------------------------------------------- */
-  .plasma-button-group :global(> .plasma-button:hover),
-  .plasma-button-group :global(> button:hover),
-  .plasma-button-group :global(> .plasma-button:focus-visible),
-  .plasma-button-group :global(> button:focus-visible),
-  .plasma-button-group :global(> .plasma-button--primary) {
+  .plasma-button-group > :global(.plasma-button:hover),
+  .plasma-button-group > :global(button:hover),
+  .plasma-button-group > :global(.plasma-button:focus-visible),
+  .plasma-button-group > :global(button:focus-visible),
+  .plasma-button-group > :global(.plasma-button--primary) {
     z-index: 1;
   }
 </style>

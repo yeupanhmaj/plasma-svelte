@@ -37,7 +37,7 @@
         ? "lg"
         : size === "medium"
           ? "md"
-          : size
+          : size,
   );
 
   function handleInput(e: Event) {
@@ -68,8 +68,16 @@
   class:plasma-searchfield--disabled={disabled}
 >
   <span class="plasma-searchfield-icon">
-    <svg aria-hidden="true" viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
-      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      width="14"
+      height="14"
+      fill="currentColor"
+    >
+      <path
+        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+      />
     </svg>
   </span>
 
@@ -79,7 +87,7 @@
     bind:this={inputEl}
     {disabled}
     {placeholder}
-    value={value}
+    {value}
     oninput={handleInput}
     onkeydown={handleKeydown}
     class="plasma-searchfield-input"
@@ -87,7 +95,7 @@
   />
 
   {#if loading}
-    <span class="plasma-searchfield-spinner" aria-label="Loading..."></span>
+    <span class="plasma-searchfield-spinner">Loading...</span>
   {:else if clearable && value && !disabled}
     <button
       type="button"
@@ -96,8 +104,16 @@
       aria-label="Clear search"
       tabindex="-1"
     >
-      <svg aria-hidden="true" viewBox="0 0 16 16" width="12" height="12" fill="currentColor">
-        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 16 16"
+        width="12"
+        height="12"
+        fill="currentColor"
+      >
+        <path
+          d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+        />
       </svg>
     </button>
   {/if}
@@ -119,7 +135,9 @@
     transition: var(--plasma-transition-fast);
   }
 
-  .plasma-searchfield:hover:not(.plasma-searchfield--disabled):not(:focus-within) {
+  .plasma-searchfield:hover:not(.plasma-searchfield--disabled):not(
+      :focus-within
+    ) {
     border-color: var(--plasma-color-border-hover);
   }
 
