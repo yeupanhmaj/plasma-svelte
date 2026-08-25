@@ -1,65 +1,99 @@
-# Svelte library
+# ⚡ plasma-svelte
 
-Everything you need to build a Svelte library, powered by [`sv`](https://npmjs.com/package/sv).
+A sleek, lightweight, and modern Svelte 5 UI component library built for rapid UI development and fluid design systems.
 
-Read more about creating a library [in the docs](https://svelte.dev/docs/kit/packaging).
+> [!WARNING]
+> **✨ Vibe Code Notice**
+> This library is vibe-coded! It is experimental, rapidly evolving, and built with pure vibes and speed in mind. Use it as your will, adapt it to your needs, fork it, or hack away on it freely.
 
-## Creating a project
+---
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Features
 
-```sh
-# create a new project in the current directory
-npx sv create
+- 🚀 **Svelte 5 Ready**: Built natively with Svelte 5 runes and modern component patterns.
+- 🎨 **Design Tokens & Themeable**: Powered by a robust CSS variable token system (`token.css` + `base.css`).
+- 🧩 **Extensive Component Suite**: Buttons, Cards, Badges, Modals, Drawers, Date/Time Pickers, Tables, Tabs, and layout primitives.
+- 📖 **Storybook Integrated**: Interactive documentation and component exploration out of the box.
+- 📦 **Zero-Config Export**: Full TypeScript types (`.d.ts`) and modern ESM module exports.
 
-# create a new project in my-app
-npx sv create my-app
+---
+
+## Quick Start
+
+### 1. Install
+
+```bash
+npm install plasma-svelte
+# or
+pnpm add plasma-svelte
+# or
+yarn add plasma-svelte
 ```
 
-To recreate this project with the same configuration:
+### 2. Import Styles
 
-```sh
-# recreate this project
-pnpm dlx sv@0.17.0 create --template library --types ts --add storybook --install pnpm plasma-svelte
+Include the library's design tokens and base stylesheet in your root layout (`+layout.svelte`) or entry point (`app.ts` / `main.ts`):
+
+```svelte
+<script lang="ts">
+  import "plasma-svelte/style.css";
+</script>
+
+<slot />
 ```
 
-## Developing
+> **Note**: You can also import individual sub-styles if you manage your own reset:
+> ```ts
+> import "plasma-svelte/style/token.css";
+> import "plasma-svelte/style/base.css";
+> ```
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### 3. Use Components
 
-```sh
+```svelte
+<script lang="ts">
+  import { Button, Badge, Card } from 'plasma-svelte';
+</script>
+
+<Card hoverable={true} padding="lg">
+  <Badge variant="primary" dot={true}>Active</Badge>
+  <h2>Welcome to Plasma</h2>
+  <p>Streamlined UI components for Svelte 5.</p>
+  <Button variant="primary">Get Started</Button>
+</Card>
+```
+
+---
+
+## Development & Storybook
+
+### Start Storybook
+
+Explore and interact with components in isolated stories:
+
+```bash
+npm run storybook
+```
+
+### Run Dev Server
+
+```bash
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
+### Build & Package
 
-## Building
+Package the library for distribution (generates types & compiles to `./dist`):
 
-To build your library:
-
-```sh
-npm pack
-```
-
-To create a production version of your showcase app:
-
-```sh
+```bash
+npm run prepack
+# or full build
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+---
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## License
 
-## Publishing
+Use as your will! Distributed under the MIT License or your choice of terms.
 
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
-
-To publish your library to [npm](https://www.npmjs.com):
-
-```sh
-npm publish
-```
