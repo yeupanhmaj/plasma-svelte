@@ -28,8 +28,12 @@
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
-			"svelte": "./dist/index.js"
-		}
+			"svelte": "./dist/index.js",
+			"default": "./dist/index.js"
+		},
+		"./style.css": "./dist/style/index.css",
+		"./style/*": "./dist/style/*",
+		"./style": "./dist/style/index.css"
 	},
 	"peerDependencies": {
 		"svelte": "^5.0.0"
