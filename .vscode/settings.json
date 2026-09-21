@@ -21,6 +21,6 @@
 		"editor.formatOnSave": false
 	},
 	"[svelte]": {
-		"editor.defaultFormatter": "svelte.svelte-vscode"
+		"editor.defaultFormatter": "biomejs.biome"
 	}
 }

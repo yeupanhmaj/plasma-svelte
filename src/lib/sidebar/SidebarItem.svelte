@@ -1,12 +1,14 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte'
 	import type { HTMLAttributes } from 'svelte/elements'
+	import { getAppShellContext } from '../appshell/context.svelte.js'
 
 	interface Props extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement> {
 		id?: string
 		label?: string
 		active?: boolean
 		disabled?: boolean
+		collapsed?: boolean
 		href?: string
 		icon?: Snippet
 		badge?: string | number
@@ -19,14 +21,22 @@
 		label = '',
 		active = false,
 		disabled = false,
+		collapsed,
 		href,
 		icon,
 		badge,
 		children,
 		class: customClass = '',
 		onclick,
+		title: customTitle,
 		...restProps
 	}: Props = $props()
+
+	const appShellCtx = getAppShellContext()
+	let isCollapsed = $derived(
+		collapsed !== undefined ? collapsed : (appShellCtx?.navbarCollapsed ?? false)
+	)
+	let effectiveTitle = $derived(customTitle ?? (isCollapsed ? label : undefined))
 
 	function handleClick(e: MouseEvent) {
 		if (disabled) {
@@ -40,9 +50,11 @@
 {#if href}
 	<a
 		{href}
+		title={effectiveTitle}
 		class="plasma-sidebar-item {customClass}"
 		class:plasma-sidebar-item--active={active}
 		class:plasma-sidebar-item--disabled={disabled}
+		class:plasma-sidebar-item--collapsed={isCollapsed}
 		aria-current={active ? "page" : undefined}
 		aria-disabled={disabled}
 		onclick={handleClick}
@@ -52,24 +64,28 @@
 			<span class="plasma-sidebar-item-icon"> {@render icon()} </span>
 		{/if}
 
-		<span class="plasma-sidebar-item-label">
-			{#if children}
-				{@render children()}
-			{:else}
-				{label}
-			{/if}
-		</span>
+		{#if !isCollapsed}
+			<span class="plasma-sidebar-item-label">
+				{#if children}
+					{@render children()}
+				{:else}
+					{label}
+				{/if}
+			</span>
 
-		{#if badge !== undefined}
-			<span class="plasma-sidebar-item-badge">{badge}</span>
+			{#if badge !== undefined}
+				<span class="plasma-sidebar-item-badge">{badge}</span>
+			{/if}
 		{/if}
 	</a>
 {:else}
 	<button
 		type="button"
+		title={effectiveTitle}
 		class="plasma-sidebar-item {customClass}"
 		class:plasma-sidebar-item--active={active}
 		class:plasma-sidebar-item--disabled={disabled}
+		class:plasma-sidebar-item--collapsed={isCollapsed}
 		aria-pressed={active}
 		{disabled}
 		onclick={handleClick}
@@ -79,16 +95,18 @@
 			<span class="plasma-sidebar-item-icon"> {@render icon()} </span>
 		{/if}
 
-		<span class="plasma-sidebar-item-label">
-			{#if children}
-				{@render children()}
-			{:else}
-				{label}
-			{/if}
-		</span>
+		{#if !isCollapsed}
+			<span class="plasma-sidebar-item-label">
+				{#if children}
+					{@render children()}
+				{:else}
+					{label}
+				{/if}
+			</span>
 
-		{#if badge !== undefined}
-			<span class="plasma-sidebar-item-badge">{badge}</span>
+			{#if badge !== undefined}
+				<span class="plasma-sidebar-item-badge">{badge}</span>
+			{/if}
 		{/if}
 	</button>
 {/if}
@@ -113,6 +131,11 @@
 		user-select: none;
 		box-sizing: border-box;
 		transition: var(--plasma-transition-fast);
+	}
+
+	.plasma-sidebar-item--collapsed {
+		justify-content: center;
+		padding: 7px 0;
 	}
 
 	.plasma-sidebar-item:hover:not(.plasma-sidebar-item--disabled) {
