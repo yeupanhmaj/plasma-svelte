@@ -1,7 +1,7 @@
 <script module>
   import { defineMeta } from "@storybook/addon-svelte-csf";
-  import Grid from "$lib/layout/Grid.svelte";
   import Card from "$lib/card/Card.svelte";
+  import Grid from "$lib/layout/Grid.svelte";
 
   const { Story } = defineMeta({
     title: "Layout/Grid",
