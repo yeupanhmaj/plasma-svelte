@@ -51,6 +51,11 @@
 />
 
 <Story
+  name="Twelve Hour (AM/PM)"
+  args={{ value: "14:30", format: "12h", style: "width: 200px;" }}
+/>
+
+<Story
   name="Step Interval"
   args={{ value: "09:45", minuteStep: 5, style: "width: 200px;" }}
 />

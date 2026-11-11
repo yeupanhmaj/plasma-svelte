@@ -3,6 +3,7 @@
 <!-- biome-ignore-all lint/a11y/useKeyWithClickEvents: experimental only -->
 <script lang="ts">
 	import type { HTMLAttributes } from 'svelte/elements'
+	import Popover from '../popover/Popover.svelte'
 
 	export interface SelectOption {
 		value: string | number
@@ -37,7 +38,11 @@
 		...restProps
 	}: Props = $props()
 
+	const uid = $props.id()
+
 	let isOpen = $state(false)
+	let containerEl = $state<HTMLDivElement | null>(null)
+	let listEl = $state<HTMLUListElement | null>(null)
 	let triggerEl = $state<HTMLButtonElement | null>(null)
 	let highlightedIndex = $state(-1)
 
@@ -103,16 +108,15 @@
 		}
 	}
 
-	function handleWindowClick(e: MouseEvent) {
-		if (isOpen && triggerEl && !triggerEl.parentElement?.contains(e.target as Node)) {
-			isOpen = false
-		}
-	}
+	// Keep the highlighted option visible when navigating with the keyboard.
+	$effect(() => {
+		if (!isOpen || highlightedIndex < 0) return
+		listEl?.querySelector(`[data-index="${highlightedIndex}"]`)?.scrollIntoView({ block: 'nearest' })
+	})
 </script>
 
-<svelte:window onclick={handleWindowClick} />
-
 <div
+	bind:this={containerEl}
 	class="plasma-select-container plasma-select--{resolvedSize} {customClass}"
 	class:plasma-select--disabled={disabled}
 	class:plasma-select--invalid={invalid}
@@ -128,8 +132,11 @@
 		type="button"
 		bind:this={triggerEl}
 		{disabled}
+		role="combobox"
 		aria-haspopup="listbox"
 		aria-expanded={isOpen}
+		aria-controls={isOpen ? `${uid}-listbox` : undefined}
+		aria-activedescendant={isOpen && highlightedIndex >= 0 ? `${uid}-option-${highlightedIndex}` : undefined}
 		class="plasma-select-trigger"
 		onclick={toggleDropdown}
 		onkeydown={handleKeydown}
@@ -148,13 +155,28 @@
 		</span>
 	</button>
 
-	{#if isOpen}
-		<ul tabindex="-1" class="plasma-select-popup">
+	<Popover
+		bind:open={isOpen}
+		anchor={containerEl}
+		placement="bottom-start"
+		matchWidth
+		maxHeight={240}
+		class="plasma-select-popover"
+	>
+		<ul
+			bind:this={listEl}
+			id="{uid}-listbox"
+			role="listbox"
+			tabindex="-1"
+			class="plasma-select-popup"
+		>
 			{#each normalizedOptions as opt, i}
 				{@const isSelected = opt.value === value}
 				{@const isHighlighted = i === highlightedIndex}
 				<!-- svelte-ignore a11y_click_events_have_key_events -->
 				<li
+					id="{uid}-option-{i}"
+					data-index={i}
 					role="option"
 					aria-selected={isSelected}
 					aria-disabled={opt.disabled}
@@ -185,7 +207,7 @@
 				</li>
 			{/each}
 		</ul>
-	{/if}
+	</Popover>
 </div>
 
 <style>
@@ -286,21 +308,10 @@
      Popup Menu
      -------------------------------------------------------------------------- */
 	.plasma-select-popup {
-		position: absolute;
-		top: calc(100% + 4px);
-		left: 0;
-		right: 0;
-		z-index: 1000;
-		max-height: 240px;
-		overflow-y: auto;
 		margin: 0;
 		padding: 4px;
 		list-style: none;
-		background-color: var(--plasma-color-surface);
-		border: 1px solid var(--plasma-color-border);
-		border-radius: var(--plasma-radius-md);
-		box-shadow: var(--plasma-shadow-md);
-		animation: plasma-select-in var(--plasma-duration-fast) var(--plasma-ease-default);
+		outline: none;
 	}
 
 	.plasma-select-option {
@@ -339,16 +350,5 @@
 
 	.plasma-select-option-check {
 		flex-shrink: 0;
-	}
-
-	@keyframes plasma-select-in {
-		from {
-			opacity: 0;
-			transform: translateY(-4px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
 	}
 </style>

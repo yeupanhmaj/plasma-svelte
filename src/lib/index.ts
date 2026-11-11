@@ -69,6 +69,20 @@ export {
 export { default as ConfirmDialog } from "./modal/ConfirmDialog.svelte";
 export { default as Modal, default as Dialog } from "./modal/Modal.svelte";
 export { default as Pagination } from "./pagination/Pagination.svelte";
+export {
+	default as Popover,
+	type PopoverTriggerProps,
+} from "./popover/Popover.svelte";
+export {
+	type Align,
+	type AnchorLike,
+	computePosition,
+	type Placement,
+	type PositionOptions,
+	type PositionResult,
+	pointAnchor,
+	type Side,
+} from "./popover/position.js";
 export { default as ProgressBar } from "./progress/ProgressBar.svelte";
 export { default as Radio } from "./radio/Radio.svelte";
 export { default as SearchField } from "./searchfield/SearchField.svelte";

@@ -1,52 +1,101 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte'
 	import type { HTMLAttributes } from 'svelte/elements'
+	import Popover from '../popover/Popover.svelte'
 
 	type TooltipPosition = 'top' | 'bottom' | 'left' | 'right'
 
 	interface Props extends HTMLAttributes<HTMLDivElement> {
 		text?: string
 		position?: TooltipPosition
+		/** Delay before showing on hover, ms. Focus shows immediately. */
+		delay?: number
 		content?: Snippet
 		children?: Snippet
 	}
 
+	const uid = $props.id()
+
 	let {
 		text = '',
 		position = 'top',
+		delay = 0,
 		content,
 		children,
 		class: customClass = '',
 		...restProps
 	}: Props = $props()
+
+	const tooltipId = `plasma-tooltip-${uid}`
+
+	let open = $state(false)
+	let wrapperEl = $state<HTMLDivElement | null>(null)
+	let timer: ReturnType<typeof setTimeout> | undefined
+
+	const hasContent = $derived(Boolean(text || content))
+
+	function show(immediate = false) {
+		clearTimeout(timer)
+		if (immediate || delay <= 0) {
+			open = true
+		} else {
+			timer = setTimeout(() => {
+				open = true
+			}, delay)
+		}
+	}
+
+	function hide() {
+		clearTimeout(timer)
+		open = false
+	}
+
+	$effect(() => () => clearTimeout(timer))
 </script>
 
-<div class="plasma-tooltip-trigger {customClass}" {...restProps}>
+<!-- Wrapper only forwards hover/focus; the focusable child inside is what users interact with. -->
+<div
+	bind:this={wrapperEl}
+	class="plasma-tooltip-trigger {customClass}"
+	aria-describedby={hasContent ? tooltipId : undefined}
+	onpointerenter={() => hasContent && show()}
+	onpointerleave={hide}
+	onfocusin={() => hasContent && show(true)}
+	onfocusout={hide}
+	{...restProps}
+>
 	{@render children?.()}
-
-	{#if text || content}
-		<div role="tooltip" class="plasma-tooltip-bubble plasma-tooltip--{position}">
-			{#if content}
-				{@render content()}
-			{:else}
-				{text}
-			{/if}
-		</div>
-	{/if}
 </div>
+
+{#if hasContent}
+	<Popover
+		id={tooltipId}
+		role="tooltip"
+		{open}
+		anchor={wrapperEl}
+		placement={position}
+		offset={6}
+		surface={false}
+		closeOnOutside={false}
+		restoreFocus={false}
+		keepMounted
+		onclose={hide}
+		class="plasma-tooltip-bubble"
+	>
+		{#if content}
+			{@render content()}
+		{:else}
+			{text}
+		{/if}
+	</Popover>
+{/if}
 
 <style>
 	.plasma-tooltip-trigger {
-		position: relative;
 		display: inline-flex;
 	}
 
-	/* --------------------------------------------------------------------------
-     Tooltip Bubble
-     -------------------------------------------------------------------------- */
-	.plasma-tooltip-bubble {
-		position: absolute;
-		z-index: 1000;
+	:global(.plasma-tooltip-bubble) {
 		pointer-events: none;
 		white-space: nowrap;
 		padding: var(--plasma-space-xs) var(--plasma-space-sm);
@@ -58,62 +107,5 @@
 		border: 1px solid var(--plasma-color-border-subtle);
 		border-radius: var(--plasma-radius-sm);
 		box-shadow: var(--plasma-shadow-md);
-		opacity: 0;
-		visibility: hidden;
-		transform: scale(0.95);
-		transition:
-			opacity var(--plasma-duration-fast) var(--plasma-ease-default),
-			transform var(--plasma-duration-fast) var(--plasma-ease-default),
-			visibility var(--plasma-duration-fast);
-	}
-
-	.plasma-tooltip-trigger:hover .plasma-tooltip-bubble,
-	.plasma-tooltip-trigger:focus-within .plasma-tooltip-bubble {
-		opacity: 1;
-		visibility: visible;
-		transform: scale(1);
-	}
-
-	/* --------------------------------------------------------------------------
-     Positions
-     -------------------------------------------------------------------------- */
-	.plasma-tooltip--top {
-		bottom: calc(100% + 6px);
-		left: 50%;
-		transform: translateX(-50%) scale(0.95);
-	}
-	.plasma-tooltip-trigger:hover .plasma-tooltip--top,
-	.plasma-tooltip-trigger:focus-within .plasma-tooltip--top {
-		transform: translateX(-50%) scale(1);
-	}
-
-	.plasma-tooltip--bottom {
-		top: calc(100% + 6px);
-		left: 50%;
-		transform: translateX(-50%) scale(0.95);
-	}
-	.plasma-tooltip-trigger:hover .plasma-tooltip--bottom,
-	.plasma-tooltip-trigger:focus-within .plasma-tooltip--bottom {
-		transform: translateX(-50%) scale(1);
-	}
-
-	.plasma-tooltip--left {
-		right: calc(100% + 6px);
-		top: 50%;
-		transform: translateY(-50%) scale(0.95);
-	}
-	.plasma-tooltip-trigger:hover .plasma-tooltip--left,
-	.plasma-tooltip-trigger:focus-within .plasma-tooltip--left {
-		transform: translateY(-50%) scale(1);
-	}
-
-	.plasma-tooltip--right {
-		left: calc(100% + 6px);
-		top: 50%;
-		transform: translateY(-50%) scale(0.95);
-	}
-	.plasma-tooltip-trigger:hover .plasma-tooltip--right,
-	.plasma-tooltip-trigger:focus-within .plasma-tooltip--right {
-		transform: translateY(-50%) scale(1);
 	}
 </style>

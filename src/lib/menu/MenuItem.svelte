@@ -36,6 +36,7 @@
 
 <li
 	role="menuitem"
+	tabindex="-1"
 	aria-disabled={disabled}
 	class="plasma-menu-item {customClass}"
 	class:plasma-menu-item--disabled={disabled}
@@ -100,18 +101,26 @@
 	}
 
 	/* Hover & Active States */
-	.plasma-menu-item:hover:not(.plasma-menu-item--disabled) {
+	.plasma-menu-item:focus {
+		outline: none;
+	}
+
+	.plasma-menu-item:hover:not(.plasma-menu-item--disabled),
+	.plasma-menu-item:focus-visible:not(.plasma-menu-item--disabled) {
 		background-color: var(--plasma-color-highlight);
 		color: #ffffff;
 	}
 
 	.plasma-menu-item:hover:not(.plasma-menu-item--disabled) .plasma-menu-item-icon,
-	.plasma-menu-item:hover:not(.plasma-menu-item--disabled) .plasma-menu-item-shortcut {
+	.plasma-menu-item:hover:not(.plasma-menu-item--disabled) .plasma-menu-item-shortcut,
+	.plasma-menu-item:focus-visible:not(.plasma-menu-item--disabled) .plasma-menu-item-icon,
+	.plasma-menu-item:focus-visible:not(.plasma-menu-item--disabled) .plasma-menu-item-shortcut {
 		color: rgba(255, 255, 255, 0.9);
 	}
 
 	/* Danger / Destructive Variant */
-	.plasma-menu-item--danger:hover:not(.plasma-menu-item--disabled) {
+	.plasma-menu-item--danger:hover:not(.plasma-menu-item--disabled),
+	.plasma-menu-item--danger:focus-visible:not(.plasma-menu-item--disabled) {
 		background-color: var(--plasma-color-negative);
 		color: #ffffff;
 	}

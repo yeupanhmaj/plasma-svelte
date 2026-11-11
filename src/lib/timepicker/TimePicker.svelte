@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { HTMLAttributes } from 'svelte/elements'
+	import Popover from '../popover/Popover.svelte'
 
 	type TimePickerSize = 'sm' | 'md' | 'lg' | 'small' | 'medium' | 'large'
 	type TimeFormat = '24h' | '12h'
@@ -31,8 +32,6 @@
 
 	let isOpen = $state(false)
 	let triggerEl = $state<HTMLButtonElement | null>(null)
-	let popupEl = $state<HTMLDivElement | null>(null)
-	let popupStyle = $state('')
 
 	// Parse hours, minutes, seconds from value
 	const parsed = $derived.by(() => {
@@ -101,6 +100,21 @@
 		emitTime(selectedH, selectedM, selectedS, selectedPeriod)
 	}
 
+	function selectPeriod(period: 'AM' | 'PM') {
+		selectedPeriod = period
+		emitTime(selectedH, selectedM, selectedS, selectedPeriod)
+	}
+
+	// Text shown on the trigger: 12h format renders "2:30 PM"; the bound value stays HH:mm(:ss).
+	const displayValue = $derived.by(() => {
+		if (!value) return ''
+		if (format !== '12h') return value
+		const { h, m, s, period } = parsed
+		const mm = String(m).padStart(2, '0')
+		const time = showSeconds ? `${h}:${mm}:${String(s).padStart(2, '0')}` : `${h}:${mm}`
+		return `${time} ${period}`
+	})
+
 	function selectMinute(m: number) {
 		selectedM = m
 		emitTime(selectedH, selectedM, selectedS, selectedPeriod)
@@ -112,31 +126,12 @@
 		const m = now.getMinutes()
 		const s = now.getSeconds()
 		emitTime(h, m, s, h >= 12 ? 'PM' : 'AM')
-		popupEl?.hidePopover()
-	}
-
-	function updatePosition() {
-		if (!triggerEl) return
-		const rect = triggerEl.getBoundingClientRect()
-		popupStyle = `top: ${rect.bottom + 4}px; left: ${rect.left}px;`
+		isOpen = false
 	}
 
 	function toggleOpen() {
 		if (disabled) return
-		if (popupEl?.matches(':popover-open')) {
-			popupEl.hidePopover()
-		} else {
-			updatePosition()
-			popupEl?.showPopover()
-		}
-	}
-
-	function handleToggle(e: Event) {
-		const toggleEvent = e as Event & { newState?: string }
-		isOpen = toggleEvent.newState === 'open'
-		if (isOpen) {
-			updatePosition()
-		}
+		isOpen = !isOpen
 	}
 </script>
 
@@ -167,7 +162,7 @@
 		</span>
 
 		<span class="plasma-timepicker-text" class:plasma-timepicker-placeholder={!value}>
-			{value || placeholder}
+			{displayValue || placeholder}
 		</span>
 
 		<span class="plasma-timepicker-chevron" class:plasma-timepicker-chevron--open={isOpen}>
@@ -179,16 +174,15 @@
 		</span>
 	</button>
 
-	<!-- KDE Breeze Time Picker Top-Layer Popover -->
-	<div
-		bind:this={popupEl}
-		popover="auto"
-		ontoggle={handleToggle}
-		class="plasma-timepicker-popup"
-		style={popupStyle}
+	<Popover
+		bind:open={isOpen}
+		anchor={triggerEl}
 		role="dialog"
 		aria-label="Time Selector"
+		placement="bottom-start"
+		style="--plasma-popover-radius: var(--plasma-radius-lg); --plasma-popover-shadow: var(--plasma-shadow-lg);"
 	>
+		<div class="plasma-timepicker-popup">
 		<div class="plasma-timepicker-columns">
 			<!-- Hours Column -->
 			<div class="plasma-time-column">
@@ -223,16 +217,38 @@
 					{/each}
 				</div>
 			</div>
+
+			{#if format === '12h'}
+					<!-- AM / PM Column -->
+					<div class="plasma-time-column plasma-time-column--period">
+						<div class="plasma-time-column-header">AM/PM</div>
+						<div class="plasma-time-column-list" role="radiogroup" aria-label="AM or PM">
+							{#each ['AM', 'PM'] as const as p}
+								<button
+									type="button"
+									role="radio"
+									aria-checked={selectedPeriod === p}
+									class="plasma-time-cell"
+									class:plasma-time-cell--selected={selectedPeriod === p}
+									onclick={() => selectPeriod(p)}
+								>
+									{p}
+								</button>
+							{/each}
+						</div>
+					</div>
+			{/if}
 		</div>
 
 		<!-- Footer -->
 		<div class="plasma-timepicker-footer">
 			<button type="button" class="plasma-time-now-btn" onclick={setNow}>Now</button>
-			<button type="button" class="plasma-time-ok-btn" onclick={() => popupEl?.hidePopover()}>
+			<button type="button" class="plasma-time-ok-btn" onclick={() => isOpen = false}>
 				Done
 			</button>
 		</div>
-	</div>
+		</div>
+	</Popover>
 </div>
 
 <style>
@@ -326,31 +342,10 @@
      Top-Layer Time Popover
      -------------------------------------------------------------------------- */
 	.plasma-timepicker-popup {
-		position: fixed;
-		margin: 0;
-		inset: unset;
-		z-index: 99999;
 		width: 200px;
 		padding: var(--plasma-space-md);
-		background-color: var(--plasma-color-surface);
-		color: var(--plasma-color-text);
 		font-family: var(--plasma-font-sans);
-		border: 1px solid var(--plasma-color-border);
-		border-radius: var(--plasma-radius-lg);
-		box-shadow: var(--plasma-shadow-lg);
 		box-sizing: border-box;
-		animation: plasma-popup-fade var(--plasma-duration-fast) var(--plasma-ease-default);
-	}
-
-	@keyframes plasma-popup-fade {
-		from {
-			opacity: 0;
-			transform: translateY(-4px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
 	}
 
 	.plasma-timepicker-columns {

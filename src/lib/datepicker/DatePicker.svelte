@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { HTMLAttributes } from 'svelte/elements'
+	import Popover from '../popover/Popover.svelte'
 
 	type DatePickerSize = 'sm' | 'md' | 'lg' | 'small' | 'medium' | 'large'
 
@@ -28,8 +29,15 @@
 
 	let isOpen = $state(false)
 	let triggerEl = $state<HTMLButtonElement | null>(null)
-	let popupEl = $state<HTMLDivElement | null>(null)
-	let popupStyle = $state('')
+
+	// Format a Date as YYYY-MM-DD in the *local* timezone (toISOString() would use UTC
+	// and can return yesterday/tomorrow near midnight).
+	function toLocalDateString(d: Date) {
+		const y = d.getFullYear()
+		const m = String(d.getMonth() + 1).padStart(2, '0')
+		const day = String(d.getDate()).padStart(2, '0')
+		return `${y}-${m}-${day}`
+	}
 
 	// Parse current selected or initial viewing date
 	function parseDate(val: string) {
@@ -91,7 +99,7 @@
 			isDisabled: boolean
 		}[] = []
 
-		const todayStr = new Date().toISOString().split('T')[0]
+		const todayStr = toLocalDateString(new Date())
 
 		// Previous month filler days
 		for (let i = startDayOfWeek - 1; i >= 0; i--) {
@@ -152,40 +160,21 @@
 	function goToToday() {
 		const today = new Date()
 		viewDate = today
-		selectDate(today.toISOString().split('T')[0])
+		selectDate(toLocalDateString(today))
 	}
 
 	function selectDate(dateStr: string) {
 		value = dateStr
 		onchange?.(dateStr)
-		popupEl?.hidePopover()
-	}
-
-	function updatePosition() {
-		if (!triggerEl) return
-		const rect = triggerEl.getBoundingClientRect()
-		popupStyle = `top: ${rect.bottom + 4}px; left: ${rect.left}px;`
+		isOpen = false
 	}
 
 	function toggleOpen() {
 		if (disabled) return
-		if (popupEl?.matches(':popover-open')) {
-			popupEl.hidePopover()
-		} else {
-			if (value) {
-				viewDate = parseDate(value)
-			}
-			updatePosition()
-			popupEl?.showPopover()
+		if (!isOpen && value) {
+			viewDate = parseDate(value)
 		}
-	}
-
-	function handleToggle(e: Event) {
-		const toggleEvent = e as Event & { newState?: string }
-		isOpen = toggleEvent.newState === 'open'
-		if (isOpen) {
-			updatePosition()
-		}
+		isOpen = !isOpen
 	}
 </script>
 
@@ -227,16 +216,15 @@
 		</span>
 	</button>
 
-	<!-- KDE Breeze Calendar Top-Layer Popover -->
-	<div
-		bind:this={popupEl}
-		popover="auto"
-		ontoggle={handleToggle}
-		class="plasma-calendar-popup"
-		style={popupStyle}
+	<Popover
+		bind:open={isOpen}
+		anchor={triggerEl}
 		role="dialog"
 		aria-label="Calendar"
+		placement="bottom-start"
+		style="--plasma-popover-radius: var(--plasma-radius-lg); --plasma-popover-shadow: var(--plasma-shadow-lg);"
 	>
+		<div class="plasma-calendar-popup">
 		<!-- Calendar Header -->
 		<div class="plasma-calendar-header">
 			<button
@@ -288,7 +276,8 @@
 		<div class="plasma-calendar-footer">
 			<button type="button" class="plasma-calendar-today-btn" onclick={goToToday}>Today</button>
 		</div>
-	</div>
+		</div>
+	</Popover>
 </div>
 
 <style>
@@ -382,31 +371,10 @@
      Top-Layer Calendar Popover
      -------------------------------------------------------------------------- */
 	.plasma-calendar-popup {
-		position: fixed;
-		margin: 0;
-		inset: unset;
-		z-index: 99999;
 		width: 280px;
 		padding: var(--plasma-space-md);
-		background-color: var(--plasma-color-surface);
-		color: var(--plasma-color-text);
 		font-family: var(--plasma-font-sans);
-		border: 1px solid var(--plasma-color-border);
-		border-radius: var(--plasma-radius-lg);
-		box-shadow: var(--plasma-shadow-lg);
 		box-sizing: border-box;
-		animation: plasma-popup-fade var(--plasma-duration-fast) var(--plasma-ease-default);
-	}
-
-	@keyframes plasma-popup-fade {
-		from {
-			opacity: 0;
-			transform: translateY(-4px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
 	}
 
 	.plasma-calendar-header {
